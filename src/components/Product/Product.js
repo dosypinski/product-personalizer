@@ -1,19 +1,16 @@
 import styles from './Product.module.scss';
-import clsx from 'clsx';
 import Button from '../Button/Button'; 
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import shortid from 'shortid';
 import ProductImage from './ProductImage/ProductImage';
+import OptionColor from './OptionColor/OptionColor';
+import shortid from 'shortid';
+import clsx from 'clsx';
 
 const Product = ({title, basePrice, colors, sizes, name }) => {
 
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
-
-  const prepareColorClassName = color => {
-    return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
-  };
 
   const getPrice = () => {
     const clickedSize = sizes.find(element => element.name === currentSize)
@@ -46,12 +43,7 @@ const Product = ({title, basePrice, colors, sizes, name }) => {
               {sizes.map(size => <li key={shortid()}><button type="button" onClick={() => setCurrentSize(size.name)} className={clsx(currentSize === size.name && styles.active)}>{size.name}</button></li>)}
             </ul>
           </div>
-          <div className={styles.colors}>
-            <h3 className={styles.optionLabel}>Colors</h3>
-            <ul className={styles.choices}>
-              {colors.map(color => <li key={shortid()}><button type="button" onClick={() => setCurrentColor(color)} className={clsx(prepareColorClassName(color), color && styles.active)}>{color.name}</button></li>)}
-            </ul>
-          </div>
+          <OptionColor colors={colors} setCurrentColor={setCurrentColor} />
           <Button className={styles.button}>
             <span className="fa fa-shopping-cart" />
           </Button>

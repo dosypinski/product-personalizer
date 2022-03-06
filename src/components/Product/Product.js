@@ -1,20 +1,13 @@
 import styles from './Product.module.scss';
-import Button from '../Button/Button'; 
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductImage from './ProductImage/ProductImage';
-import OptionColor from './OptionColor/OptionColor';
-import OptionSize from './OptionSize/OptionSize';
+import ProductForm from './ProductForm/ProductForm';
 
 const Product = ({title, basePrice, colors, sizes, name }) => {
 
   const [currentColor, setCurrentColor] = useState(colors[0]);
   const [currentSize, setCurrentSize] = useState(sizes[0].name);
-
-  const getPrice = () => {
-    const clickedSize = sizes.find(element => element.name === currentSize)
-    return basePrice + clickedSize.additionalPrice;
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -27,6 +20,11 @@ const Product = ({title, basePrice, colors, sizes, name }) => {
     console.log('Color: ' + currentColor)
   }
 
+  const getPrice = () => {
+    const clickedSize = sizes.find(element => element.name === currentSize)
+    return basePrice + clickedSize.additionalPrice;
+  };
+
   return (
     <article className={styles.product}>
       <ProductImage name={name} title={title} currentColor={currentColor} />
@@ -35,13 +33,7 @@ const Product = ({title, basePrice, colors, sizes, name }) => {
           <h2 className={styles.name}>{title}</h2>
           <span className={styles.price}>{getPrice()}$</span>
         </header>
-        <form onSubmit={handleSubmit}>
-          <OptionSize sizes={sizes} setCurrentSize={setCurrentSize} currentSize={currentSize} />
-          <OptionColor colors={colors} setCurrentColor={setCurrentColor} />
-          <Button className={styles.button}>
-            <span className="fa fa-shopping-cart" />
-          </Button>
-        </form>
+        <ProductForm handleSubmit={handleSubmit} sizes={sizes} colors={colors} setCurrentColor={setCurrentColor} setCurrentSize={setCurrentSize} currentSize={currentSize} />
       </div>
     </article>
     

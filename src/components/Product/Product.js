@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import ProductImage from './ProductImage/ProductImage';
 import OptionColor from './OptionColor/OptionColor';
-import shortid from 'shortid';
-import clsx from 'clsx';
+import OptionSize from './OptionSize/OptionSize';
 
 const Product = ({title, basePrice, colors, sizes, name }) => {
 
@@ -37,12 +36,7 @@ const Product = ({title, basePrice, colors, sizes, name }) => {
           <span className={styles.price}>{getPrice()}$</span>
         </header>
         <form onSubmit={handleSubmit}>
-          <div className={styles.sizes}>
-            <h3 className={styles.optionLabel}>Sizes</h3>
-            <ul className={styles.choices}>
-              {sizes.map(size => <li key={shortid()}><button type="button" onClick={() => setCurrentSize(size.name)} className={clsx(currentSize === size.name && styles.active)}>{size.name}</button></li>)}
-            </ul>
-          </div>
+          <OptionSize sizes={sizes} setCurrentSize={setCurrentSize} currentSize={currentSize} />
           <OptionColor colors={colors} setCurrentColor={setCurrentColor} />
           <Button className={styles.button}>
             <span className="fa fa-shopping-cart" />
